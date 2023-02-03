@@ -1,43 +1,33 @@
 import PropTypes from 'prop-types';
-import { Component } from 'react';
+import { useState } from 'react';
 import css from './ContactForm.module.css';
 
-class ContactForm extends Component {
-  static propTypes = {
-    onSubmit: PropTypes.func.isRequired,
-  };
+function ContactForm({onSubmit}) {
+  const [name, setName] = useState('');
+  const [number, setNumber] = useState('');
 
-  state = {
-    name: '',
-    number: '',
-  };
+  const onChangeName = e => setName(e.currentTarget.value);
+  const onChangeNunber = e => setNumber(e.currentTarget.value);
 
-  handleChange = (e) => {
-    const { name, value } = e.currentTarget;
-    this.setState({ [name]: value });
-  };
-
-  handleSubmit = (e) => {
+  const onSubmitForm = e => {
     e.preventDefault();
-    const { onSubmit } = this.props;
-    onSubmit(this.state);
-    this.reset();
+    onSubmit({ name, number });
+    reset();
   };
 
-  reset = () => {
-    this.setState({ name: '', number: '' });
+  const reset = () => {
+    setName('');
+    setNumber('');
   };
 
-  render() {
-    const { name, number } = this.state;
 
     return (
-      <form className={css.form} onSubmit={this.handleSubmit}>
+      <form onSubmit={onSubmitForm}>
         <label className={css.label}>
           <span className={css.title}>Name</span>
           <input
             className={css.input}
-            onChange={this.handleChange}
+            onChange={onChangeName}
             type="text"
             name="name"
             value={name}
@@ -50,7 +40,7 @@ class ContactForm extends Component {
           <span className={css.title}>Number</span>
           <input
             className={css.input}
-            onChange={this.handleChange}
+            onChange={onChangeNunber}
             type="tel"
             name="number"
             value={number}
@@ -65,6 +55,9 @@ class ContactForm extends Component {
       </form>
     );
   }
-}
+
+  ContactForm.prototype = {
+    onSubmit: PropTypes.func.isRequired,
+  };
 
 export default ContactForm;
