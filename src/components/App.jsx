@@ -7,8 +7,10 @@ import Filter from './Filter/Filter';
 import Message from './Message/Message';
 import css from './App.module.css';
 
+const initialContacts = JSON.parse(localStorage.getItem('contacts')); 
+
 function App() {
-  const [contacts, setContacts] = useState([]);
+  const [contacts, setContacts] = useState(initialContacts || []);
   const [filter, setFilter] = useState('');
 
   useEffect(() => {
@@ -48,6 +50,7 @@ function App() {
       contact.name.toLowerCase().includes(normalizedFilter)
     );
   };
+  const filterContacts = filtredContacts();
 
   return (
       <div className={css.container}>
@@ -59,7 +62,7 @@ function App() {
         <Filter filter={filter} changeFilter={changeFilter} />
         {contacts.length > 0 ? (
           <ContactList
-            contacts={filtredContacts}
+            contacts={filterContacts}
             onDeleteContact={deleteContact}
           />
         ) : (

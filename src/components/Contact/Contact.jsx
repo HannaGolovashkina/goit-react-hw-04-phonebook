@@ -13,11 +13,7 @@ function Contact({ name, number, onDeleteContact }) {
       </div>
       <div className={css.wrapper}>
         <p className={css.number}>{number}</p>
-        <button
-          className={css.button}
-          type="button"
-          onClick={onDeleteContact}
-        >
+        <button className={css.button} type="button" onClick={onDeleteContact}>
           <FaTrash />
         </button>
       </div>
